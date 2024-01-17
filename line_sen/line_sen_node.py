@@ -46,12 +46,12 @@ class ImageSubscriber(Node):
     h, w, c = resize_frame.shape
 
     twist = Twist()
-    twist.linear.x = 4.0
+    twist.linear.x = 1.0
     twist.angular.z = -(float(val)-w/2)/(w/2)*10
     self.pub_cmdVel.publish(twist)
 
     # Display image
-    cv2.imshow("camera", resize_frame)
+#    cv2.imshow("camera", resize_frame)
     
     cv2.waitKey(1)
 
