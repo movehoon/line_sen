@@ -20,7 +20,8 @@ setup(
     tests_require=['pytest'],
     entry_points={
         'console_scripts': [
-            'line_sen_node = line_sen.line_sen_node:main'
+            'line_sen_node = line_sen.line_sen_node:main',
+            'pcan_manager = line_sen.pcan_manager:main'
         ],
     },
 )
