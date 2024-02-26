@@ -30,6 +30,7 @@ class ImageSubscriber(Node):
 
     # Used to convert between ROS and OpenCV images
     self.br = CvBridge()
+    self.get_logger().info('detect_line initialized')
    
   def listener_callback(self, data):
     """
@@ -73,7 +74,7 @@ def detect_line(image):
 
 
 def main(args=None):
-    print('Hi from line_sen.')
+    # print('Hi from line_sen.')
     # Initialize the rclpy library
     rclpy.init(args=args)
 
