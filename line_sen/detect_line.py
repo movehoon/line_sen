@@ -32,6 +32,7 @@ class ImageSubscriber(Node):
 
     # Used to convert between ROS and OpenCV images
     self.br = CvBridge()
+    self.get_logger().info('detect_line initialized')
    
   def listener_callback(self, data):
     """
@@ -48,13 +49,17 @@ class ImageSubscriber(Node):
     h, w, c = resize_frame.shape
 
     twist = Twist()
-    twist.linear.x = 4.0
+    twist.linear.x = 1.0
     twist.angular.z = -(float(val)-w/2)/(w/2)*10
     self.pub_cmdVel.publish(twist)
 
     # Display image
+<<<<<<< HEAD:line_sen/line_sen_node.py
     cv2.circle(resize_frame, (val, int(h-10)), 5, (255, 0, 0), 2)
     cv2.imshow("camera", resize_frame)
+=======
+#    cv2.imshow("camera", resize_frame)
+>>>>>>> bd343e170dd9eae011e6e68852ea22636295ef55:line_sen/detect_line.py
     
     cv2.waitKey(1)
 
@@ -104,7 +109,11 @@ def detect_line(image):
 
 
 def main(args=None):
+<<<<<<< HEAD:line_sen/line_sen_node.py
     print('Hi I am line_sen_node of line_sen.')
+=======
+    # print('Hi from line_sen.')
+>>>>>>> bd343e170dd9eae011e6e68852ea22636295ef55:line_sen/detect_line.py
     # Initialize the rclpy library
     rclpy.init(args=args)
 
