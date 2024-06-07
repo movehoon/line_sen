@@ -5,6 +5,7 @@ from cv_bridge import CvBridge # Package to convert between ROS and OpenCV Image
 from geometry_msgs.msg import Twist
 import cv2 # OpenCV library
 import numpy as np
+from matplotlib import pyplot as plt
 
 class ImageSubscriber(Node):
   """
@@ -21,7 +22,8 @@ class ImageSubscriber(Node):
     # from the video_frames topic. The queue size is 10 messages.
     self.subscription = self.create_subscription(
       Image, 
-      '/front_stereo_camera/left_rgb/image_raw', 
+      # '/front_stereo_camera/left_rgb/image_raw', 
+      '/image_raw', 
       self.listener_callback, 
       10)
     self.subscription # prevent unused variable warning
@@ -51,6 +53,7 @@ class ImageSubscriber(Node):
     self.pub_cmdVel.publish(twist)
 
     # Display image
+    cv2.circle(resize_frame, (val, int(h-10)), 5, (255, 0, 0), 2)
     cv2.imshow("camera", resize_frame)
     
     cv2.waitKey(1)
@@ -61,10 +64,38 @@ def detect_line(image):
 
     gray = cv2.cvtColor(image, cv2.COLOR_RGB2GRAY)
     blur = cv2.GaussianBlur(gray,(5,5),0)
+    # hist = cv2.calcHist(gray, ravel(), None, [256], [0,256])
+    # plt.hist(gray.ravel(), 256, [0,256])
+    # plt.show()
+    ret,binary = cv2.threshold(gray, 200, 255, cv2.THRESH_BINARY)
+    sobel = cv2.Sobel(binary, -1, 1, 0)
+    edge = cv2.Canny(sobel, 100, 200)
+
+    line = gray.copy()
+
+    lines = cv2.HoughLinesP(edge,1,np.pi/180, threshold=100,minLineLength=10,maxLineGap=1)
+    if lines is not None:
+      for points in lines:
+        x1,y1,x2,y2 = points[0]
+        cv2.line(gray, (x1, y1),(x2,y2), 0, 3)
+
+    # titles = ['gray', 'BINARY']
+    # images = [gray, binary]
+    # for i in range(2):
+    #    plt.subplot(2, 1, i+1), plt.imshow(images[i], 'gray', vmin=0,vmax=255)
+    #    plt.title(titles[i])
+    #   #  plt.xticks([]).yticks([])
+    # plt.show()
+
     # print(blur[100])
+    cv2.imshow("gray", gray)
+    cv2.imshow("binary", binary)
+    # cv2.imshow("hist", hist)
+    cv2.imshow("sobel", sobel)
+    cv2.imshow("edge", edge)
 
     h, w = blur.shape
-    val = np.argmax(blur[int(h/2)])
+    val = np.argmax(gray[int(h-10)])
     print('max: ', val)
 
     return val
@@ -73,7 +104,7 @@ def detect_line(image):
 
 
 def main(args=None):
-    print('Hi from line_sen.')
+    print('Hi I am line_sen_node of line_sen.')
     # Initialize the rclpy library
     rclpy.init(args=args)
 
