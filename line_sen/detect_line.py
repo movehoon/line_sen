@@ -54,12 +54,8 @@ class ImageSubscriber(Node):
     self.pub_cmdVel.publish(twist)
 
     # Display image
-<<<<<<< HEAD:line_sen/line_sen_node.py
     cv2.circle(resize_frame, (val, int(h-10)), 5, (255, 0, 0), 2)
     cv2.imshow("camera", resize_frame)
-=======
-#    cv2.imshow("camera", resize_frame)
->>>>>>> bd343e170dd9eae011e6e68852ea22636295ef55:line_sen/detect_line.py
     
     cv2.waitKey(1)
 
@@ -109,11 +105,7 @@ def detect_line(image):
 
 
 def main(args=None):
-<<<<<<< HEAD:line_sen/line_sen_node.py
     print('Hi I am line_sen_node of line_sen.')
-=======
-    # print('Hi from line_sen.')
->>>>>>> bd343e170dd9eae011e6e68852ea22636295ef55:line_sen/detect_line.py
     # Initialize the rclpy library
     rclpy.init(args=args)
 
