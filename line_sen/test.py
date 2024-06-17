@@ -16,7 +16,8 @@ if cap.isOpened():
             else:
                 ret = track.track(frame)
                 h,w,c = frame.shape
-                cv2.circle(frame, (ret, int(h-50)), 5, (255, 0, 0), 3)
+                if ret > 0:
+                    cv2.circle(frame, (int(ret), int(h-60)), 5, (255, 0, 0), 3)
                 cv2.imshow('[video_pub]frame', frame)
                 cv2.waitKey(30)
         else:
