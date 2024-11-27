@@ -10,7 +10,7 @@ from cv_bridge import CvBridge
 # 이미지 메시지 데이터를 어레이 형태로 변환
 bridge = CvBridge() 
 
-class ImageSubscriber(Node) :
+class ImageTransfer(Node) :
    def __init__(self) :
     super().__init__('image_sub')
     qos = QoSProfile(depth=10)
@@ -26,7 +26,7 @@ class ImageSubscriber(Node) :
 
    def image_callback(self, data) :
     src = bridge.imgmsg_to_cv2(data, 'bgr8')
-    resize_frame = cv2.resize(src, dsize=(360, 240), interpolation = cv2.INTER_AREA)
+    resize_frame = cv2.resize(src, dsize=(640, 480), interpolation = cv2.INTER_AREA)
     f = bridge.cv2_to_imgmsg(resize_frame)
     self.publisher.publish(f)
 
@@ -39,7 +39,7 @@ class ImageSubscriber(Node) :
      
 def main(args=None) :
   rclpy.init(args=args)
-  node = ImageSubscriber()
+  node = ImageTransfer()
 
   try :
     rclpy.spin(node)
