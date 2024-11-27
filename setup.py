@@ -23,13 +23,11 @@ setup(
     tests_require=['pytest'],
     entry_points={
         'console_scripts': [
-<<<<<<< HEAD
             'line_sen_node = line_sen.line_sen_node:main',
-            'video_pub_node = line_sen.video_pub_node:main'
-=======
+            'video_pub_node = line_sen.video_pub_node:main',
             'detect_line = line_sen.detect_line:main',
-            'pcan_manager = line_sen.pcan_manager:main'
->>>>>>> bd343e170dd9eae011e6e68852ea22636295ef55
+            'pcan_manager = line_sen.pcan_manager:main',
+            'image_transfer = line_sen.image_transfer:main',
         ],
     },
 )
